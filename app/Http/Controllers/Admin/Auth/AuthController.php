@@ -25,9 +25,14 @@ class AuthController extends Controller
             'email'         => 'required|email',
             'password'      => 'required|min:6'
         ]);
-
-
+         
+        
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+            if($request->has('remember'))
+            {
+                  session()->put('email_s', $request->email,time()+36000);
+                  session()->put('password_s', $request->password,time()+36000);
+            }
             return redirect()->intended(route('admin.dashboard'));
         } else {
 
@@ -55,6 +60,6 @@ class AuthController extends Controller
     {
         return redirect()->route('admin.login')
         ->withErrors(['email' => trans('auth.failed')])
-        ->withInput($request->only('email', 'remember'));
+        ->withInput($request->only('email','password','remember'));
     }
 }

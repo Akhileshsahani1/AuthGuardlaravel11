@@ -72,7 +72,7 @@
                             <label for="email" class="form-label">Email address</label>
                             <input id="email" type="email"
                                 class="form-control @error('email') is-invalid @enderror" name="email"
-                                value="{{ old('email') }}" autocomplete="email" autofocus>
+                                value="{{ old('email',session()->has('email_s')?session()->get('email_s'):null) }}" autocomplete="email" autofocus>
                             @error('email')
                                 <code id="email-error" class="text-danger">{{ $message }}</code>
                             @enderror
@@ -84,7 +84,7 @@
 
                             <label for="password" class="form-label">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" id="password" name="password" class="form-control">
+                                <input type="password" id="password" name="password" value="{{old('password',session()->has('password_s')?session()->get('password_s'):null)}}" class="form-control">
                                 <div class="input-group-append" data-password="false">
                                     <div class="input-group-text">
                                         <span class="password-eye"></span>
